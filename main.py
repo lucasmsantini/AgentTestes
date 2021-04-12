@@ -12,6 +12,7 @@ from watchdog.events import FileSystemEventHandler
 from file_utilities import *
 from winreg import *
 from pathlib import Path
+import glob
 import xmltodict, json
 import untangle
 
@@ -75,10 +76,11 @@ class Handler(FileSystemEventHandler):
     def on_modified(event):
         print('e==modified== ', event)
         nomearquivo = str(event.src_path[35:79])
-        npl = 'C:\\Windows\\System32\\Tpar\\PrintLogs\\'+nomearquivo
-        print('------->', npl)
-        os.system(f'copy "{npl}" "C:\\ProjLucas\\NPL"')
+        arquivo_NPL = 'C:\\Windows\\System32\\Tpar\\PrintLogs\\'+nomearquivo
+        print('------->', arquivo_NPL)
+        os.system(f'copy "{arquivo_NPL}" "C:\\ProjLucas\\NPL"')
         os.system(f'C:\\projLucas\\nddPrint.Agent.NPLToXML.exe C:\\projLucas\\NPL\\{nomearquivo}')
+
         print('Um arquivo XML foi extraído do .NPL')
         return
 
@@ -92,9 +94,12 @@ def xmlfiletoOBJECT():
 
     diretorio = "C:\\projLucas\\NPL\\"
     for file in os.listdir(diretorio):
-        print('Arquivos do diretótio: '+ file)
-    arquivo = f'C:\\projLucas\\NPL\\{file}'
-    obj = untangle.parse(arquivo)
+         print('Arquivos do diretótio: '+ file)
+
+    arquivo_XML = f'C:\\projLucas\\NPL\\{file}'
+    print('Arquivo --: '+ arquivo_XML)
+    obj = untangle.parse(arquivo_XML)
+    os.remove(f"{arquivo_XML}")
     print('Versão: ', obj.ROOT.PrintLog.Version.cdata)
     print('EnterpriseKey: ', obj.ROOT.PrintLog.EnterpriseKey.cdata)
     print('CreateQueues: ', obj.ROOT.PrintLog.CreateQueues.cdata)
@@ -109,6 +114,23 @@ def xmlfiletoOBJECT():
     print('EnterpriseKey: ', obj.ROOT.PrintLog.ComputerMetaData.NetworkAddresses.NetworkAddress.Mask.cdata)
     print('EnterpriseKey: ', obj.ROOT.PrintLog.ComputerMetaData.NetworkAddresses.NetworkAddress.MacAddress.cdata)
 
+    npl_files = glob.glob('c:/projLucas/NPL/*.NPL')
+    xml_files = glob.glob('c:/projLucas/NPL/*.xml')
+
+    for npl in npl_files:
+        try:
+            os.remove(npl)
+            print('Arquivo npl removido')
+        except OSError as e:
+            print(f"Error:{e.strerror}")
+
+    for xml in xml_files:
+        try:
+            os.remove(xml)
+            print('Arquivo xml removido')
+        except OSError as e:
+            print(f"Error:{e.strerror}")
+
 
 file_change_handler = Handler()
 observer = Observer()
@@ -119,9 +141,8 @@ observer.start()
 
 imprime()
 serviceRestart()
-time.sleep(5)
+time.sleep(8)
 xmlfiletoOBJECT()
-
 
 
 try:
@@ -130,9 +151,6 @@ try:
 except KeyboardInterrupt:
     observer.stop()
 observer.join()
-
-
-
 
 def agent_ini_portugues():
     print('Escrevendo arquivo Agent.ini...')
@@ -143,7 +161,6 @@ def agent_ini_portugues():
                     'Language=pt-br')
     agent_ini.close()
 
-
 def agent_ini_ingles():
     print('Escrevendo arquivo Agent.ini...')
     agent_ini = open('Agent.ini', 'w')
@@ -152,7 +169,6 @@ def agent_ini_ingles():
                     'DestinationAddress=127.0.0.1\n'
                     'Language=en-us')
     agent_ini.close()
-
 
 def agent_ini_espanhol():
     print('Escrevendo arquivo Agent.ini...')
