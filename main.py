@@ -17,33 +17,34 @@ import xmltodict, json
 import untangle
 
 
-# print('Instalando Agent...')
-# os.system('c:\\projlucas\\nddPrintAgentSetup-x64_5.50.0.msi /q')
-# print('Instalação do Agent concluída')
+print('Instalando Agent...')
+os.system('c:\\projlucas\\nddPrintAgentSetup-x64_5.50.0.msi /q')
+print('Instalação do Agent concluída')
 
 
 def imprime():
-    filename = tempfile.mktemp(prefix="prefix", suffix="suffix" '.txt')
+    filename = tempfile.mktemp(prefix="prefix_", suffix="_suffix" '.txt')
     print('Imprimindo teste na impressora padrão do Windows...')
     open(filename, 'w').write('Teste de impressão na impressora '
                               'padrão do sistema com esta escrita '
                               'para que o Agent não descarte o '
                               'arquivo por estar com tamanho muito '
                               'pequeno')
-    time.sleep(1)
-    for i in range(10):
+
+    for i in range(3):
         os.startfile(filename, "print")
 
 def imprime2():
     arquivo = open("teste" + ".txt", "w")
-    arquivo.write("Essa é a primeira linha escrita por nós. \n")
+    arquivo.write("linha escrita. \n")
     print(arquivo)
 
 
 def serviceRestart():
+    time.sleep(10)
     serviceName = "nddPrint.Agent"
     print('Reiniciando serviço do Agent...')
-    time.sleep(10)
+
     win32serviceutil.RestartService(serviceName)
 
 
@@ -80,8 +81,9 @@ class Handler(FileSystemEventHandler):
         print('------->', arquivo_NPL)
         os.system(f'copy "{arquivo_NPL}" "C:\\ProjLucas\\NPL"')
         os.system(f'C:\\projLucas\\nddPrint.Agent.NPLToXML.exe C:\\projLucas\\NPL\\{nomearquivo}')
-
         print('Um arquivo XML foi extraído do .NPL')
+        #os.remove(arquivo_NPL)
+        #print('Arquivo ', arquivo_NPL, 'removido')
         return
 
     @staticmethod
@@ -92,14 +94,22 @@ class Handler(FileSystemEventHandler):
 
 def xmlfiletoOBJECT():
 
+    npl_files = glob.glob('c:/projLucas/NPL/*.NPL')
+    #xml_files = glob.glob('c:\\projLucas\\NPL*.xml')
     diretorio = "C:\\projLucas\\NPL\\"
-    for file in os.listdir(diretorio):
-         print('Arquivos do diretótio: '+ file)
+    arquivos_da_pasta = os.listdir(diretorio)
+    xml_file = (diretorio + arquivos_da_pasta[1])
+    # for file in os.listdir(diretorio):
+    #     print('Arquivos do diretótio: '+ file)
+    # arquivo_XML = f'C:\\projLucas\\NPL\\{file}'
+    print('Arquivo que vai para o Parser: ', xml_file)
+    obj = untangle.parse(xml_file)
 
-    arquivo_XML = f'C:\\projLucas\\NPL\\{file}'
-    print('Arquivo --: '+ arquivo_XML)
-    obj = untangle.parse(arquivo_XML)
-    os.remove(f"{arquivo_XML}")
+    # path = Path(npl_files)
+    # print('path.suffix: ', path.suffix)
+    # print('path.stem: ', path.stem)
+
+    print('------PRINTLOG-------')
     print('Versão: ', obj.ROOT.PrintLog.Version.cdata)
     print('EnterpriseKey: ', obj.ROOT.PrintLog.EnterpriseKey.cdata)
     print('CreateQueues: ', obj.ROOT.PrintLog.CreateQueues.cdata)
@@ -107,15 +117,54 @@ def xmlfiletoOBJECT():
     print('ProductName: ', obj.ROOT.PrintLog.ProductName.cdata)
     print('ProductVersion: ', obj.ROOT.PrintLog.ProductVersion.cdata)
     print('IsEmbedded: ', obj.ROOT.PrintLog.IsEmbedded.cdata)
+
+    print('------ComputerMetaData-------')
     print('OperationalSystem: ', obj.ROOT.PrintLog.ComputerMetaData.OperationalSystem.cdata)
     print('StrongName: ', obj.ROOT.PrintLog.ComputerMetaData.StrongName.cdata)
     print('ComputerName: ', obj.ROOT.PrintLog.ComputerMetaData.ComputerName.cdata)
-    print('EnterpriseKey: ', obj.ROOT.PrintLog.ComputerMetaData.NetworkAddresses.NetworkAddress.IP.cdata)
-    print('EnterpriseKey: ', obj.ROOT.PrintLog.ComputerMetaData.NetworkAddresses.NetworkAddress.Mask.cdata)
-    print('EnterpriseKey: ', obj.ROOT.PrintLog.ComputerMetaData.NetworkAddresses.NetworkAddress.MacAddress.cdata)
+    print('IP: ', obj.ROOT.PrintLog.ComputerMetaData.NetworkAddresses.NetworkAddress.IP.cdata)
+    print('Mask: ', obj.ROOT.PrintLog.ComputerMetaData.NetworkAddresses.NetworkAddress.Mask.cdata)
+    print('MacAddress: ', obj.ROOT.PrintLog.ComputerMetaData.NetworkAddresses.NetworkAddress.MacAddress.cdata)
 
-    npl_files = glob.glob('c:/projLucas/NPL/*.NPL')
+    print('------PRINTERS-------')
+    print('Impressoras detectadas: ', len(obj.ROOT.PrintLog.Printers.Printer))
+    x = range(len(obj.ROOT.PrintLog.Printers.Printer))
+    for n in x:
+        print('Printer ID: ', obj.ROOT.PrintLog.Printers.Printer[n]['ID'])
+        print('Printer AddressMAC: ', obj.ROOT.PrintLog.Printers.Printer[n].AddressMAC.cdata)
+        print('Printer AddressName: ', obj.ROOT.PrintLog.Printers.Printer[n].AddressName.cdata)
+        print('Printer AddressPort: ', obj.ROOT.PrintLog.Printers.Printer[n].AddressPort.cdata)
+        print('Printer DeviceManufacturer: ', obj.ROOT.PrintLog.Printers.Printer[n].DeviceManufacturer.cdata)
+        print('Printer DeviceModelName: ', obj.ROOT.PrintLog.Printers.Printer[n].DeviceModelName.cdata)
+        print('Printer DeviceSerialNumber: ', obj.ROOT.PrintLog.Printers.Printer[n].DeviceSerialNumber.cdata)
+        print('Printer IsColor: ', obj.ROOT.PrintLog.Printers.Printer[n].IsColor.cdata)
+        print('Printer IsCopier: ', obj.ROOT.PrintLog.Printers.Printer[n].IsCopier.cdata)
+        print('Printer IsDuplex: ', obj.ROOT.PrintLog.Printers.Printer[n].IsDuplex.cdata)
+        print('Printer IsFax: ', obj.ROOT.PrintLog.Printers.Printer[n].IsFax.cdata)
+        print('Printer IsScan: ', obj.ROOT.PrintLog.Printers.Printer[n].IsScan.cdata)
+        print('Printer PrinterType: ', obj.ROOT.PrintLog.Printers.Printer[n].PrinterType.cdata)
+        print('Printer QueueDriverName: ', obj.ROOT.PrintLog.Printers.Printer[n].QueueDriverName.cdata)
+        print('Printer QueueName: ', obj.ROOT.PrintLog.Printers.Printer[n].QueueName.cdata)
+        print('Printer QueuePort: ', obj.ROOT.PrintLog.Printers.Printer[n].QueuePort.cdata)
+        print('--------- Fim Printer ID: ', obj.ROOT.PrintLog.Printers.Printer[n]['ID'])
+
+    print('------PRINTJOBS-------')
+    print('Documentos impressos: ', len(obj.ROOT.PrintLog.PrintJobs.PrintJob))
+    y = range(len(obj.ROOT.PrintLog.PrintJobs.PrintJob))
+    for n in y:
+        print('PrintJob.Data: ', obj.ROOT.PrintLog.PrintJobs.PrintJob[0].Data.cdata)
+    print('------USERS-------')
+    print('UserID: ', obj.ROOT.PrintLog.Users.User.UserID.cdata)
+    print('LogonName: ', obj.ROOT.PrintLog.Users.User.LogonName.cdata)
+    print('FullName: ', obj.ROOT.PrintLog.Users.User.FullName.cdata)
+    print('DomainName: ', obj.ROOT.PrintLog.Users.User.DomainName.cdata)
+    print('DomainType: ', obj.ROOT.PrintLog.Users.User.DomainType.cdata)
+
+    # os.remove(arquivo_XML)
+    # print('Arquivo xml removido')
+
     xml_files = glob.glob('c:/projLucas/NPL/*.xml')
+    xml_files2 = glob.glob('c:/projLucas/NPL/*.xml')
 
     for npl in npl_files:
         try:
@@ -141,16 +190,16 @@ observer.start()
 
 imprime()
 serviceRestart()
-time.sleep(8)
+#time.sleep(9)
 xmlfiletoOBJECT()
 
 
-try:
-    while True:
-        time.sleep(1)
-except KeyboardInterrupt:
-    observer.stop()
-observer.join()
+# try:
+#     while True:
+#         time.sleep(1)
+# except KeyboardInterrupt:
+#     observer.stop()
+# observer.join()
 
 def agent_ini_portugues():
     print('Escrevendo arquivo Agent.ini...')
