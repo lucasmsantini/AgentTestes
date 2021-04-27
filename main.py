@@ -34,6 +34,7 @@ def imprime():
     for i in range(3):
         os.startfile(filename, "print")
 
+
 def imprime2():
     arquivo = open("teste" + ".txt", "w")
     arquivo.write("linha escrita. \n")
@@ -41,11 +42,10 @@ def imprime2():
 
 
 def serviceRestart():
-    time.sleep(10)
     serviceName = "nddPrint.Agent"
     print('Reiniciando serviço do Agent...')
-
     win32serviceutil.RestartService(serviceName)
+    time.sleep(10)
 
 
 class Handler(FileSystemEventHandler):
@@ -152,7 +152,20 @@ def xmlfiletoOBJECT():
     print('Documentos impressos: ', len(obj.ROOT.PrintLog.PrintJobs.PrintJob))
     y = range(len(obj.ROOT.PrintLog.PrintJobs.PrintJob))
     for n in y:
-        print('PrintJob.Data: ', obj.ROOT.PrintLog.PrintJobs.PrintJob[0].Data.cdata)
+        job_data = (obj.ROOT.PrintLog.PrintJobs.PrintJob[0].Data.cdata.replace('Â','').split('¬'))
+        print('PrintJob.Data: ', job_data)
+        print('Título do Job: ', job_data[23])
+        print('Hostname do Job: ', job_data[22])
+        print('PrinterID do Job: ', job_data[4])
+        print('Data do Job: ', job_data[12])
+        print('Hora do Job: ', job_data[13])
+        print('Tamanho do Job: ', job_data[11])
+        print('Tipo de papel do Job: ', job_data[5])
+        print('Qualidade do Job: ', job_data[5])
+
+# 1¬1¬0¬600¬672¬9¬1¬1¬0¬0¬0¬50738¬2021/04/27¬08:52:39¬0¬0¬0¬¬¬0¬0¬¬NDD-VM-TES4919¬prefix_xxvwlp1w_suffix.txt - Notepad
+#       3   4   5           11    12         13                    22             23
+
     print('------USERS-------')
     print('UserID: ', obj.ROOT.PrintLog.Users.User.UserID.cdata)
     print('LogonName: ', obj.ROOT.PrintLog.Users.User.LogonName.cdata)
@@ -189,8 +202,9 @@ observer.schedule(file_change_handler, os.getcwd(), recursive=False, )
 observer.start()
 
 imprime()
+time.sleep(5)
 serviceRestart()
-#time.sleep(9)
+
 xmlfiletoOBJECT()
 
 
