@@ -31,15 +31,17 @@ def imprime():
                               'arquivo por estar com tamanho muito '
                               'pequeno')
 
-    for i in range(3):
+    for i in range(10):
         os.startfile(filename, "print")
+        time.sleep(1)
 
 
 def imprime2():
+    os.chdir('C:\\Windows\\System32\\Tpar')
     arquivo = open("teste" + ".txt", "w")
-    arquivo.write("linha escrita. \n")
-    print(arquivo)
+    arquivo.write("linha escrita.linha escrita.linha escrita.linha escrita.linha escrita. \n")
 
+    os.startfile('teste.txt', 'print')
 
 def serviceRestart():
     serviceName = "nddPrint.Agent"
@@ -118,6 +120,7 @@ def xmlfiletoOBJECT():
     print('ProductVersion: ', obj.ROOT.PrintLog.ProductVersion.cdata)
     print('IsEmbedded: ', obj.ROOT.PrintLog.IsEmbedded.cdata)
 
+
     print('------ComputerMetaData-------')
     print('OperationalSystem: ', obj.ROOT.PrintLog.ComputerMetaData.OperationalSystem.cdata)
     print('StrongName: ', obj.ROOT.PrintLog.ComputerMetaData.StrongName.cdata)
@@ -127,26 +130,46 @@ def xmlfiletoOBJECT():
     print('MacAddress: ', obj.ROOT.PrintLog.ComputerMetaData.NetworkAddresses.NetworkAddress.MacAddress.cdata)
 
     print('------PRINTERS-------')
-    print('Impressoras detectadas: ', len(obj.ROOT.PrintLog.Printers.Printer))
-    x = range(len(obj.ROOT.PrintLog.Printers.Printer))
-    for n in x:
-        print('Printer ID: ', obj.ROOT.PrintLog.Printers.Printer[n]['ID'])
-        print('Printer AddressMAC: ', obj.ROOT.PrintLog.Printers.Printer[n].AddressMAC.cdata)
-        print('Printer AddressName: ', obj.ROOT.PrintLog.Printers.Printer[n].AddressName.cdata)
-        print('Printer AddressPort: ', obj.ROOT.PrintLog.Printers.Printer[n].AddressPort.cdata)
-        print('Printer DeviceManufacturer: ', obj.ROOT.PrintLog.Printers.Printer[n].DeviceManufacturer.cdata)
-        print('Printer DeviceModelName: ', obj.ROOT.PrintLog.Printers.Printer[n].DeviceModelName.cdata)
-        print('Printer DeviceSerialNumber: ', obj.ROOT.PrintLog.Printers.Printer[n].DeviceSerialNumber.cdata)
-        print('Printer IsColor: ', obj.ROOT.PrintLog.Printers.Printer[n].IsColor.cdata)
-        print('Printer IsCopier: ', obj.ROOT.PrintLog.Printers.Printer[n].IsCopier.cdata)
-        print('Printer IsDuplex: ', obj.ROOT.PrintLog.Printers.Printer[n].IsDuplex.cdata)
-        print('Printer IsFax: ', obj.ROOT.PrintLog.Printers.Printer[n].IsFax.cdata)
-        print('Printer IsScan: ', obj.ROOT.PrintLog.Printers.Printer[n].IsScan.cdata)
-        print('Printer PrinterType: ', obj.ROOT.PrintLog.Printers.Printer[n].PrinterType.cdata)
-        print('Printer QueueDriverName: ', obj.ROOT.PrintLog.Printers.Printer[n].QueueDriverName.cdata)
-        print('Printer QueueName: ', obj.ROOT.PrintLog.Printers.Printer[n].QueueName.cdata)
-        print('Printer QueuePort: ', obj.ROOT.PrintLog.Printers.Printer[n].QueuePort.cdata)
-        print('--------- Fim Printer ID: ', obj.ROOT.PrintLog.Printers.Printer[n]['ID'])
+    print('Impressoras detectadas: ', len(obj.ROOT.PrintLog.Printers))
+    x = range(len(obj.ROOT.PrintLog.Printers))
+    print('XIS: ', x)
+    if (len(obj.ROOT.PrintLog.Printers)) == 1:
+        print('Printer ID: ', obj.ROOT.PrintLog.Printers.Printer['ID'])
+        print('Printer AddressMAC: ', obj.ROOT.PrintLog.Printers.Printer.AddressMAC.cdata)
+        print('Printer AddressName: ', obj.ROOT.PrintLog.Printers.Printer.AddressName.cdata)
+        print('Printer AddressPort: ', obj.ROOT.PrintLog.Printers.Printer.AddressPort.cdata)
+        print('Printer DeviceManufacturer: ', obj.ROOT.PrintLog.Printers.Printer.DeviceManufacturer.cdata)
+        print('Printer DeviceModelName: ', obj.ROOT.PrintLog.Printers.Printer.DeviceModelName.cdata)
+        print('Printer DeviceSerialNumber: ', obj.ROOT.PrintLog.Printers.Printer.DeviceSerialNumber.cdata)
+        print('Printer IsColor: ', obj.ROOT.PrintLog.Printers.Printer.IsColor.cdata)
+        print('Printer IsCopier: ', obj.ROOT.PrintLog.Printers.Printer.IsCopier.cdata)
+        print('Printer IsDuplex: ', obj.ROOT.PrintLog.Printers.Printer.IsDuplex.cdata)
+        print('Printer IsFax: ', obj.ROOT.PrintLog.Printers.Printer.IsFax.cdata)
+        print('Printer IsScan: ', obj.ROOT.PrintLog.Printers.Printer.IsScan.cdata)
+        print('Printer PrinterType: ', obj.ROOT.PrintLog.Printers.Printer.PrinterType.cdata)
+        print('Printer QueueDriverName: ', obj.ROOT.PrintLog.Printers.Printer.QueueDriverName.cdata)
+        print('Printer QueueName: ', obj.ROOT.PrintLog.Printers.Printer.QueueName.cdata)
+        print('Printer QueuePort: ', obj.ROOT.PrintLog.Printers.Printer.QueuePort.cdata)
+        print('--------- Fim Printer ID: ', obj.ROOT.PrintLog.Printers.Printer['ID'])
+    else:
+        for n in x:
+            print('Printer ID: ', obj.ROOT.PrintLog.Printers.Printer[n]['ID'])
+            print('Printer AddressMAC: ', obj.ROOT.PrintLog.Printers.Printer[n].AddressMAC.cdata)
+            print('Printer AddressName: ', obj.ROOT.PrintLog.Printers.Printer[n].AddressName.cdata)
+            print('Printer AddressPort: ', obj.ROOT.PrintLog.Printers.Printer[n].AddressPort.cdata)
+            print('Printer DeviceManufacturer: ', obj.ROOT.PrintLog.Printers.Printer[n].DeviceManufacturer.cdata)
+            print('Printer DeviceModelName: ', obj.ROOT.PrintLog.Printers.Printer[n].DeviceModelName.cdata)
+            print('Printer DeviceSerialNumber: ', obj.ROOT.PrintLog.Printers.Printer[n].DeviceSerialNumber.cdata)
+            print('Printer IsColor: ', obj.ROOT.PrintLog.Printers.Printer[n].IsColor.cdata)
+            print('Printer IsCopier: ', obj.ROOT.PrintLog.Printers.Printer[n].IsCopier.cdata)
+            print('Printer IsDuplex: ', obj.ROOT.PrintLog.Printers.Printer[n].IsDuplex.cdata)
+            print('Printer IsFax: ', obj.ROOT.PrintLog.Printers.Printer[n].IsFax.cdata)
+            print('Printer IsScan: ', obj.ROOT.PrintLog.Printers.Printer[n].IsScan.cdata)
+            print('Printer PrinterType: ', obj.ROOT.PrintLog.Printers.Printer[n].PrinterType.cdata)
+            print('Printer QueueDriverName: ', obj.ROOT.PrintLog.Printers.Printer[n].QueueDriverName.cdata)
+            print('Printer QueueName: ', obj.ROOT.PrintLog.Printers.Printer[n].QueueName.cdata)
+            print('Printer QueuePort: ', obj.ROOT.PrintLog.Printers.Printer[n].QueuePort.cdata)
+            print('--------- Fim Printer ID: ', obj.ROOT.PrintLog.Printers.Printer[n]['ID'])
 
     print('------PRINTJOBS-------')
     print('Documentos impressos: ', len(obj.ROOT.PrintLog.PrintJobs.PrintJob))
@@ -193,7 +216,6 @@ def xmlfiletoOBJECT():
         except OSError as e:
             print(f"Error:{e.strerror}")
 
-
 file_change_handler = Handler()
 observer = Observer()
 os.chdir('C:\\Windows\\System32\\Tpar\\PrintLogs')
@@ -201,7 +223,7 @@ print(os.getcwd())
 observer.schedule(file_change_handler, os.getcwd(), recursive=False, )
 observer.start()
 
-imprime()
+imprime2()
 time.sleep(5)
 serviceRestart()
 
