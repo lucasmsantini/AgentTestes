@@ -1,15 +1,17 @@
+import glob
 import shutil
 import os
-
 
 
 def extension_type(event):
     return event.src_path[event.src_path.rindex('.') + 1:]
 
+
 def is_npl_file(event):
     if extension_type(event) in ('npl', 'NPL'):
         return True
     return False
+
 
 def is_tmp_file(event):
     if extension_type(event) in ('txt', 'tmp'):
@@ -20,7 +22,7 @@ def is_tmp_file(event):
 
 def make_folder(foldername):
     os.chdir('C:\\Windows\\System32\\Tpar')
-    if os.path.exists(foldername) == True:
+    if os.path.exists(foldername):
         print('Folder already exists, skipping creation')
         return os.getcwd() + os.sep + str(foldername)
     else:
@@ -35,3 +37,23 @@ def copy_to_new_corresponding_folder(event, path_to_new_folder):
     except:
         print('File already existed in target folder')
         pass
+
+
+def delete_files():
+    npl_files = glob.glob('c:/projLucas/NPL/*.NPL')
+    xml_files = glob.glob('c:/projLucas/NPL/*.xml')
+
+    for npl in npl_files:
+        try:
+            os.remove(npl)
+            print('Arquivo npl removido')
+        except OSError as e:
+            print(f"Error:{e.strerror}")
+
+    for xml in xml_files:
+        try:
+            os.remove(xml)
+            print('Arquivo xml removido')
+        except OSError as e:
+            print(f"Error:{e.strerror}")
+
