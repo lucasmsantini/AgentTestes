@@ -1,17 +1,16 @@
 import untangle
 import os
+import win32print
 
 
 def xmlfiletoOBJECT():
-
     try:
         dir = "C:\\projLucas\\NPL\\"
-        arquivos_da_pasta = os.listdir(dir)
-        print("arquivos_da_pasta: ", arquivos_da_pasta)
-        xml_file = str(dir + arquivos_da_pasta[1])
+        files_to_convert = os.listdir(dir)
+        print("Arquivos da pasta: ", files_to_convert)
+        xml_file = str(dir + files_to_convert[1])
         print('Arquivo que vai para o Parser: ', xml_file)
         obj = untangle.parse(xml_file)
-        print("OBJETO: ", obj)
 
         print('------PRINTLOG-------')
         printlog_version = obj.ROOT.PrintLog.Version.cdata
@@ -30,7 +29,6 @@ def xmlfiletoOBJECT():
         print('ProductVersion: ', obj.ROOT.PrintLog.ProductVersion.cdata)
         print('IsEmbedded: ', obj.ROOT.PrintLog.IsEmbedded.cdata)
 
-
         print('------ComputerMetaData-------')
         computer_OperationalSystem = obj.ROOT.PrintLog.ComputerMetaData.OperationalSystem.cdata
         computer_StrongName = obj.ROOT.PrintLog.ComputerMetaData.StrongName.cdata
@@ -47,48 +45,84 @@ def xmlfiletoOBJECT():
         print('MacAddress: ', obj.ROOT.PrintLog.ComputerMetaData.NetworkAddresses.NetworkAddress.MacAddress.cdata)
 
         print('------PRINTERS-------')
-
         for printer in obj.ROOT.PrintLog.Printers.Printer:
-            printers_on_log = len(obj.ROOT.PrintLog.Printers)
-            #Printer_ID = obj.ROOT.PrintLog.Printers.Printer['ID']
-            printer_AddressMAC = printer.AddressMAC.cdata
-            printer_AddressName = printer.AddressName.cdata
-            printer_AddressPort = printer.AddressPort.cdata
-            printer_DeviceManufacturer = printer.DeviceManufacturer.cdata
-            printer_DeviceModelName = printer.DeviceModelName.cdata
-            printer_DeviceSerialNumber = printer.DeviceSerialNumber.cdata
-            printer_IsColor = printer.IsColor.cdata
-            printer_IsCopier = printer.IsCopier.cdata
-            printer_IsDuplex = printer.IsDuplex.cdata
-            printer_IsFax = printer.IsFax.cdata
-            printer_IsScan = printer.IsScan.cdata
-            printer_PrinterType = printer.PrinterType.cdata
-            printer_QueueDriverName = printer.QueueDriverName.cdata
-            printer_QueueName = printer.QueueName.cdata
-            printer_QueuePort = printer.QueuePort.cdata
-
             print('Impressoras detectadas: ', len(obj.ROOT.PrintLog.Printers))
-            print('Printer ID: ', printer['ID'])
-            print('Printer AddressMAC: ', printer.AddressMAC.cdata)
-            print('Printer AddressName: ', printer.AddressName.cdata)
-            print('Printer AddressPort: ', printer.AddressPort.cdata)
-            print('Printer DeviceManufacturer: ', printer.DeviceManufacturer.cdata)
-            print('Printer DeviceModelName: ', printer.DeviceModelName.cdata)
-            print('Printer DeviceSerialNumber: ', printer.DeviceSerialNumber.cdata)
-            print('Printer IsColor: ', printer.IsColor.cdata)
-            print('Printer IsCopier: ', printer.IsCopier.cdata)
-            print('Printer IsDuplex: ', printer.IsDuplex.cdata)
-            print('Printer IsFax: ', printer.IsFax.cdata)
-            print('Printer IsScan: ', printer.IsScan.cdata)
-            print('Printer PrinterType: ', printer.PrinterType.cdata)
-            print('Printer QueueDriverName: ', printer.QueueDriverName.cdata)
-            print('Printer QueueName: ', printer.QueueName.cdata)
-            print('Printer QueuePort: ', printer.QueuePort.cdata)
-            print('--------- Fim Printer ID: ', printer['ID'])
+            if win32print.GetDefaultPrinter() in printer.QueueName.cdata:
+                printers_on_log = len(obj.ROOT.PrintLog.Printers)
+                #Printer_ID = obj.ROOT.PrintLog.Printers.Printer['ID']
+                printer_AddressMAC = printer.AddressMAC.cdata
+                printer_AddressName = printer.AddressName.cdata
+                printer_AddressPort = printer.AddressPort.cdata
+                printer_DeviceManufacturer = printer.DeviceManufacturer.cdata
+                printer_DeviceModelName = printer.DeviceModelName.cdata
+                printer_DeviceSerialNumber = printer.DeviceSerialNumber.cdata
+                printer_IsColor = printer.IsColor.cdata
+                printer_IsCopier = printer.IsCopier.cdata
+                printer_IsDuplex = printer.IsDuplex.cdata
+                printer_IsFax = printer.IsFax.cdata
+                printer_IsScan = printer.IsScan.cdata
+                printer_PrinterType = printer.PrinterType.cdata
+                printer_QueueDriverName = printer.QueueDriverName.cdata
+                printer_QueueName = printer.QueueName.cdata
+                printer_QueuePort = printer.QueuePort.cdata
 
+                print('INFO: Esta é a impressora padrão do Windows')
+                print('Printer ID: ', printer['ID'])
+                print('Printer AddressMAC: ', printer.AddressMAC.cdata)
+                print('Printer AddressName: ', printer.AddressName.cdata)
+                print('Printer AddressPort: ', printer.AddressPort.cdata)
+                print('Printer DeviceManufacturer: ', printer.DeviceManufacturer.cdata)
+                print('Printer DeviceModelName: ', printer.DeviceModelName.cdata)
+                print('Printer DeviceSerialNumber: ', printer.DeviceSerialNumber.cdata)
+                print('Printer IsColor: ', printer.IsColor.cdata)
+                print('Printer IsCopier: ', printer.IsCopier.cdata)
+                print('Printer IsDuplex: ', printer.IsDuplex.cdata)
+                print('Printer IsFax: ', printer.IsFax.cdata)
+                print('Printer IsScan: ', printer.IsScan.cdata)
+                print('Printer PrinterType: ', printer.PrinterType.cdata)
+                print('Printer QueueDriverName: ', printer.QueueDriverName.cdata)
+                print('Printer QueueName: ', printer.QueueName.cdata)
+                print('Printer QueuePort: ', printer.QueuePort.cdata)
+                print('Fim Printer ID: ', printer['ID'])
+            else:
+                _printer_AddressMAC_ = printer.AddressMAC.cdata
+                _printer_AddressName = printer.AddressName.cdata
+                _printer_AddressPort = printer.AddressPort.cdata
+                _printer_DeviceManufacturer = printer.DeviceManufacturer.cdata
+                _printer_DeviceModelName = printer.DeviceModelName.cdata
+                _printer_DeviceSerialNumber = printer.DeviceSerialNumber.cdata
+                _printer_IsColor = printer.IsColor.cdata
+                _printer_IsCopier = printer.IsCopier.cdata
+                _printer_IsDuplex = printer.IsDuplex.cdata
+                _printer_IsFax = printer.IsFax.cdata
+                _printer_IsScan = printer.IsScan.cdata
+                _printer_PrinterType = printer.PrinterType.cdata
+                _printer_QueueDriverName = printer.QueueDriverName.cdata
+                _printer_QueueName = printer.QueueName.cdata
+                _printer_QueuePort = printer.QueuePort.cdata
+
+                print('Outras impresoras:')
+                print('Printer ID: ', printer['ID'])
+                print('Printer AddressMAC: ', printer.AddressMAC.cdata)
+                print('Printer AddressName: ', printer.AddressName.cdata)
+                print('Printer AddressPort: ', printer.AddressPort.cdata)
+                print('Printer DeviceManufacturer: ', printer.DeviceManufacturer.cdata)
+                print('Printer DeviceModelName: ', printer.DeviceModelName.cdata)
+                print('Printer DeviceSerialNumber: ', printer.DeviceSerialNumber.cdata)
+                print('Printer IsColor: ', printer.IsColor.cdata)
+                print('Printer IsCopier: ', printer.IsCopier.cdata)
+                print('Printer IsDuplex: ', printer.IsDuplex.cdata)
+                print('Printer IsFax: ', printer.IsFax.cdata)
+                print('Printer IsScan: ', printer.IsScan.cdata)
+                print('Printer PrinterType: ', printer.PrinterType.cdata)
+                print('Printer QueueDriverName: ', printer.QueueDriverName.cdata)
+                print('Printer QueueName: ', printer.QueueName.cdata)
+                print('Printer QueuePort: ', printer.QueuePort.cdata)
+                print('Fim Printer ID: ', printer['ID'])
 
         print('------PRINTJOBS-------')
         for printjob in obj.ROOT.PrintLog.PrintJobs.PrintJob:
+            total_jobs = len(obj.ROOT.PrintLog.PrintJobs.PrintJob)
             job_data = printjob.Data.cdata
             job_data_converted = (str(job_data).replace('Â', '').split('¬'))
             print_job_title = job_data[23]
@@ -99,7 +133,7 @@ def xmlfiletoOBJECT():
             print_job_size = job_data[11]
             print_job_paperType = job_data[5]
             print_job_quality = job_data[3]
-            print('Documentos impressos: ', len(obj.ROOT.PrintLog.PrintJobs.PrintJob))
+            print('Total Jobs: ', len(obj.ROOT.PrintLog.PrintJobs.PrintJob))
             print('PrintJob.Data: ', job_data)
             print('Título do Job: ', job_data_converted[23])
             print('Hostname do Job: ', job_data_converted[22])
@@ -115,7 +149,7 @@ def xmlfiletoOBJECT():
         #       3   4   5           11    12         13                    22             23
 
         # ['1', '1', '0', '-1', '675', '9', '1', '0', '1', '0', '0', '62031', '2021/05/14', '08:57:21', '0', '0', '1', '', '', '0', '0', '', 'NDD-VM-TES4919', 'Test Page']
-        #                        4      5                             11       12            13                                               22                23
+        #                  3     4      5                             11       12            13                                               22                23
 
         print('------USERS-------')
         user_UserID = obj.ROOT.PrintLog.Users.User.UserID.cdata
@@ -129,6 +163,53 @@ def xmlfiletoOBJECT():
         print('FullName: ', obj.ROOT.PrintLog.Users.User.FullName.cdata)
         print('DomainName: ', obj.ROOT.PrintLog.Users.User.DomainName.cdata)
         print('DomainType: ', obj.ROOT.PrintLog.Users.User.DomainType.cdata)
-
+        object_xml = {
+            'printlog_version': printlog_version,
+            'printlog_enterpriseKey': printlog_enterpriseKey,
+            'printlog_createQueues': printlog_createQueues,
+            'printlog_createdDate': printlog_createdDate,
+            'printlog_productName': printlog_productName,
+            'printlog_productVersion': printlog_productVersion,
+            'printlog_isEmbedded': printlog_isEmbedded,
+            'computer_OperationalSystem': computer_OperationalSystem,
+            'computer_ComputerName': computer_ComputerName,
+            'computer_StrongName': computer_StrongName,
+            'computer_IP': computer_IP,
+            'computer_Mask': computer_Mask,
+            'computer_MacAddress': computer_MacAddress,
+            'printers_on_log': printers_on_log,
+            'printer_AddressMAC': printer_AddressMAC,
+            'printer_AddressName': printer_AddressName,
+            'printer_AddressPort': printer_AddressPort,
+            'printer_DeviceManufacturer': printer_DeviceManufacturer,
+            'printer_DeviceModelName': printer_DeviceModelName,
+            'printer_DeviceSerialNumber': printer_DeviceSerialNumber,
+            'printer_IsColor': printer_IsColor,
+            'printer_IsCopier': printer_IsCopier,
+            'printer_IsDuplex': printer_IsDuplex,
+            'printer_IsFax': printer_IsFax,
+            'printer_IsScan': printer_IsScan,
+            'printer_PrinterType': printer_PrinterType,
+            'printer_QueueDriverName': printer_QueueDriverName,
+            'printer_QueueName': printer_QueueName,
+            'printer_QueuePort': printer_QueuePort,
+            'job_data': job_data,
+            'job_data_converted': job_data_converted,
+            'print_job_title': print_job_title,
+            'print_job_hostname': print_job_hostname,
+            'print_job_printerID': print_job_printerID,
+            'print_job_date': print_job_date,
+            'print_job_time': print_job_time,
+            'print_job_size': print_job_size,
+            'print_job_paperType': print_job_paperType,
+            'print_job_quality': print_job_quality,
+            'user_UserID': user_UserID,
+            'user_LogonName': user_LogonName,
+            'user_FullName': user_FullName,
+            'user_DomainName': user_DomainName,
+            'user_DomainType': user_DomainType,
+            'total_jobs': total_jobs
+        }
+        return object_xml
     except Exception as e:
         print(e)
