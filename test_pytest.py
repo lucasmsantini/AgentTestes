@@ -1,6 +1,7 @@
 import getpass
 import win32print
 import main
+from file_utilities import delete_files
 from xml_converter import xml_file_to_object
 import wmi
 import socket
@@ -63,6 +64,7 @@ def test_verify_user_logon_name():
     print(user_logon_name)
     print(getpass.getuser())
     assert getpass.getuser() == user_logon_name
+    delete_files()
 test_verify_user_logon_name()
 
 def test_verify_total_jobs():
