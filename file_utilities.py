@@ -40,8 +40,8 @@ def copy_to_new_corresponding_folder(event, path_to_new_folder):
 
 
 def delete_files():
-    npl_files = glob.glob('c:/projLucas/NPL/*.NPL')
-    xml_files = glob.glob('c:/projLucas/NPL/*.xml')
+    npl_files = glob.glob('c:/NPL/*.NPL')
+    xml_files = glob.glob('c:/NPL/*.xml')
 
     for npl in npl_files:
         try:

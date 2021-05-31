@@ -3,9 +3,9 @@ import os
 import win32print
 
 
-def xmlfiletoOBJECT():
+def xml_file_to_object():
     try:
-        dir = "C:\\projLucas\\NPL\\"
+        dir = "C:\\NPL\\"
         files_to_convert = os.listdir(dir)
         print("Arquivos da pasta: ", files_to_convert)
         xml_file = str(dir + files_to_convert[1])
@@ -14,7 +14,7 @@ def xmlfiletoOBJECT():
 
         print('------PRINTLOG-------')
         printlog_version = obj.ROOT.PrintLog.Version.cdata
-        printlog_enterpriseKey = obj.ROOT.PrintLog.EnterpriseKey.cdata
+        #printlog_enterpriseKey = obj.ROOT.PrintLog.EnterpriseKey.cdata
         printlog_createQueues = obj.ROOT.PrintLog.CreateQueues.cdata
         printlog_createdDate = obj.ROOT.PrintLog.CreatedDate.cdata
         printlog_productName = obj.ROOT.PrintLog.ProductName.cdata
@@ -22,7 +22,7 @@ def xmlfiletoOBJECT():
         printlog_isEmbedded = obj.ROOT.PrintLog.IsEmbedded.cdata
 
         print('Versão: ', obj.ROOT.PrintLog.Version.cdata)
-        print('EnterpriseKey: ', obj.ROOT.PrintLog.EnterpriseKey.cdata)
+        #print('EnterpriseKey: ', obj.ROOT.PrintLog.EnterpriseKey.cdata)
         print('CreateQueues: ', obj.ROOT.PrintLog.CreateQueues.cdata)
         print('CreatedDate: ', obj.ROOT.PrintLog.CreatedDate.cdata)
         print('ProductName: ', obj.ROOT.PrintLog.ProductName.cdata)
@@ -154,18 +154,18 @@ def xmlfiletoOBJECT():
         print('------USERS-------')
         user_UserID = obj.ROOT.PrintLog.Users.User.UserID.cdata
         user_LogonName = obj.ROOT.PrintLog.Users.User.LogonName.cdata
-        user_FullName = obj.ROOT.PrintLog.Users.User.FullName.cdata
+        #user_FullName = obj.ROOT.PrintLog.Users.User.FullName.cdata
         user_DomainName = obj.ROOT.PrintLog.Users.User.DomainName.cdata
         user_DomainType = obj.ROOT.PrintLog.Users.User.DomainType.cdata
 
         print('UserID: ', obj.ROOT.PrintLog.Users.User.UserID.cdata)
         print('LogonName: ', obj.ROOT.PrintLog.Users.User.LogonName.cdata)
-        print('FullName: ', obj.ROOT.PrintLog.Users.User.FullName.cdata)
+        #print('FullName: ', obj.ROOT.PrintLog.Users.User.FullName.cdata)
         print('DomainName: ', obj.ROOT.PrintLog.Users.User.DomainName.cdata)
         print('DomainType: ', obj.ROOT.PrintLog.Users.User.DomainType.cdata)
         object_xml = {
             'printlog_version': printlog_version,
-            'printlog_enterpriseKey': printlog_enterpriseKey,
+            #'printlog_enterpriseKey': printlog_enterpriseKey,
             'printlog_createQueues': printlog_createQueues,
             'printlog_createdDate': printlog_createdDate,
             'printlog_productName': printlog_productName,
@@ -205,7 +205,7 @@ def xmlfiletoOBJECT():
             'print_job_quality': print_job_quality,
             'user_UserID': user_UserID,
             'user_LogonName': user_LogonName,
-            'user_FullName': user_FullName,
+            #'user_FullName': user_FullName,
             'user_DomainName': user_DomainName,
             'user_DomainType': user_DomainType,
             'total_jobs': total_jobs

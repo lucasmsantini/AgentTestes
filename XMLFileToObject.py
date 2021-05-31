@@ -2,7 +2,7 @@ import untangle
 
 def xmlfiletoOBJECT():
 
-    obj = untangle.parse('C:\\projLucas\\NPL\\09-11-20210403163353686-172031249105-XVJ.xml')
+    obj = untangle.parse('C:\\NPL\\09-11-20210403163353686-172031249105-XVJ.xml')
     print('Versão: ', obj.ROOT.PrintLog.Version.cdata)
     print('EnterpriseKey: ', obj.ROOT.PrintLog.EnterpriseKey.cdata)
     print('CreateQueues: ', obj.ROOT.PrintLog.CreateQueues.cdata)
