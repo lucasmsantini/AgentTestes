@@ -1,14 +1,25 @@
 import untangle
 import os
 import win32print
+import time
 
 
 def xml_file_to_object():
     try:
-        dir = "C:\\NPL\\"
-        files_to_convert = os.listdir(dir)
+        dir_npl = "C:\\NPL\\"
+        while dir_npl == []:
+            print('Aguardando NPL')
+            print('dir_tpar- while', dir_npl)
+            time.sleep(4)
+            # service_agent_restart()
+            if not dir_npl == []:
+                print('dir_tpar- while - IF', dir_npl)
+                break
+        else:
+            print("fim while")
+        files_to_convert = os.listdir(dir_npl)
         print("Arquivos da pasta: ", files_to_convert)
-        xml_file = str(dir + files_to_convert[1])
+        xml_file = str(dir_npl + files_to_convert[1])
         print('Arquivo que vai para o Parser: ', xml_file)
         obj = untangle.parse(xml_file)
 

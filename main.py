@@ -25,7 +25,7 @@ class Handler(FileSystemEventHandler):
 
     @staticmethod
     def on_modified(event):
-        time.sleep(3)
+        time.sleep(0.1)
         print('event on_modified: ', event)
         # while not event:
         #     time.sleep(1)
@@ -58,9 +58,9 @@ observer.start()
 #install_agent()
 #imprime2()
 
-jobs_for_print = 10
+jobs_for_print = 1
 imprime1(jobs_for_print)
-time.sleep(jobs_for_print + 5)
+time.sleep(jobs_for_print + 3)
 
 # dir_tpar = os.listdir('C:\\Windows\\System32\\tpar\\PrintLogs')
 # print('dir_tpar', dir_tpar)
@@ -75,15 +75,9 @@ time.sleep(jobs_for_print + 5)
 # else:
 #     print("fim while")
 
-# service_agent_restart()
+service_agent_restart()
 xml_converter.xml_file_to_object()
-time.sleep(15)
-#service_spool_restart()
-delete_files()
 
-# obj = untangle.parse('C:\\projLucas\\NPL\\09-11-20210514085936545-172031249105-LLF.xml')
-#
-# for printer in obj.ROOT.PrintLog.Printers.Printer:
-#     print(printer)
-#     print('AddressMAC: ', printer.AddressMAC.cdata)
-#     print(printer.AddressName.cdata)
+#service_spool_restart()
+time.sleep(5)
+
