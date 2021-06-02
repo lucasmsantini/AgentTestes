@@ -79,10 +79,3 @@ def test_verify_total_jobs():
     print(main.jobs_for_print)
     assert total_jobs == main.jobs_for_print
     delete_files()
-
-
-
-
-
-
-

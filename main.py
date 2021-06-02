@@ -1,12 +1,11 @@
+import time
+import xml_converter
+from file_utilities import *
+from service_restart import *
+from print_it_for_me import *
+from nddPrintAgent_install import *
 from watchdog.observers import Observer
 from watchdog.events import FileSystemEventHandler
-import xml_converter
-import time
-from file_utilities import *
-from print_it_for_me import imprime1, imprime2, imprime3
-from service_restart import *
-from nddPrintAgent_install import install_agent
-from wait_for_npl import wait_for_npl
 
 
 class Handler(FileSystemEventHandler):
@@ -33,7 +32,7 @@ class Handler(FileSystemEventHandler):
         os.system(f'copy "{npl_file}" "c:\\AgentTestes\\NPL\\"')
         time.sleep(1)
         os.system(f'c:\\AgentTestes\\nddPrint.Agent.NPLToXML.exe c:\\AgentTestes\\npl\\{name_file}')
-        print('Um arquivo XML foi extra do .NPL')
+        print('Um arquivo XML foi extraido .NPL')
         return
 
     @staticmethod
@@ -50,7 +49,7 @@ observer.schedule(file_change_handler, os.getcwd(), recursive=False, )
 observer.start()
 
 install_agent()
-jobs_for_print = 5
+jobs_for_print = 1
 imprime1(jobs_for_print)
 wait_for_npl()
 # time.sleep(jobs_for_print + 1)

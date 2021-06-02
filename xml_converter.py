@@ -3,8 +3,6 @@ import os
 import win32print
 import time
 
-from wait_for_npl import wait_for_npl
-
 
 def xml_file_to_object():
     try:
