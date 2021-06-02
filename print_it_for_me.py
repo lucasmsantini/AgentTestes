@@ -10,7 +10,6 @@ def imprime1(n_jobs):
     # http://timgolden.me.uk/python/win32_how_do_i/print.html
     for i in range(n_jobs):
         printer_name = win32print.GetDefaultPrinter()
-        # raw_data could equally be raw PCL/PS
         if sys.version_info >= (3,):
             raw_data = bytes('Teste de impressão na impressora '
                              'padrão do sistema com esta escrita '

@@ -3,20 +3,13 @@ import os
 import win32print
 import time
 
+from wait_for_npl import wait_for_npl
+
 
 def xml_file_to_object():
     try:
-        dir_npl = "C:\\NPL\\"
-        while dir_npl == []:
-            print('Aguardando NPL')
-            print('dir_tpar- while', dir_npl)
-            time.sleep(4)
-            # service_agent_restart()
-            if not dir_npl == []:
-                print('dir_tpar- while - IF', dir_npl)
-                break
-        else:
-            print("fim while")
+
+        dir_npl = "c:\\AgentTestes\\NPL\\"
         files_to_convert = os.listdir(dir_npl)
         print("Arquivos da pasta: ", files_to_convert)
         xml_file = str(dir_npl + files_to_convert[1])
@@ -145,7 +138,6 @@ def xml_file_to_object():
             print_job_paperType = job_data[5]
             print_job_quality = job_data[3]
             print('Total Jobs: ', len(obj.ROOT.PrintLog.PrintJobs.PrintJob))
-            print('PrintJob.Data: ', job_data)
             print('Título do Job: ', job_data_converted[23])
             print('Hostname do Job: ', job_data_converted[22])
             print('PrinterID do Job: ', job_data_converted[4])
@@ -154,13 +146,6 @@ def xml_file_to_object():
             print('Tamanho do Job: ', job_data_converted[11])
             print('Tipo de papel do Job: ', job_data_converted[5])
             print('Qualidade do Job: ', job_data_converted[3])
-
-        # Fatiamento utilizado:
-        # 1¬1¬0¬600¬672¬9¬1¬1¬0¬0¬0¬50738¬2021/04/27¬08:52:39¬0¬0¬0¬¬¬0¬0¬¬NDD-VM-TES4919¬prefix_xxvwlp1w_suffix.txt - Notepad
-        #       3   4   5           11    12         13                    22             23
-
-        # ['1', '1', '0', '-1', '675', '9', '1', '0', '1', '0', '0', '62031', '2021/05/14', '08:57:21', '0', '0', '1', '', '', '0', '0', '', 'NDD-VM-TES4919', 'Test Page']
-        #                  3     4      5                             11       12            13                                               22                23
 
         print('------USERS-------')
         user_UserID = obj.ROOT.PrintLog.Users.User.UserID.cdata

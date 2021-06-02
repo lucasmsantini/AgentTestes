@@ -22,7 +22,7 @@ def is_tmp_file(event):
 
 
 def make_folder(foldername):
-    os.chdir('C:\\Windows\\System32\\Tpar')
+    os.chdir('C:\\AgentTestes\\NPL')
     if os.path.exists(foldername):
         print('Folder already exists, skipping creation')
         return os.getcwd() + os.sep + str(foldername)
@@ -41,9 +41,10 @@ def copy_to_new_corresponding_folder(event, path_to_new_folder):
 
 
 def delete_files():
-    npl_files = glob.glob('c:/NPL/*.NPL')
-    xml_files = glob.glob('c:/NPL/*.xml')
-
+    npl_files = glob.glob('NPL/*.npl ')
+    print(npl_files)
+    xml_files = glob.glob('NPL/*.xml')
+    print(xml_files)
     for npl in npl_files:
         try:
             os.remove(npl)
@@ -57,4 +58,4 @@ def delete_files():
             print('Arquivo xml removido')
         except OSError as e:
             print(f"Error:{e.strerror}")
-
+delete_files()

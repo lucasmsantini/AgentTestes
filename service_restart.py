@@ -3,14 +3,15 @@ import win32serviceutil
 
 
 def service_agent_restart():
-    serviceName = "nddPrint.Agent"
+    service_name = "nddPrint.Agent"
     print('Reiniciando serviço do Agent...')
-    win32serviceutil.RestartService(serviceName)
+    win32serviceutil.RestartService(service_name)
     time.sleep(10)
 
 
 def service_spool_restart():
-    serviceName = "Spooler"
+
+    service_name = "Spooler"
     print('Reiniciando serviço Spool do Windows...')
-    win32serviceutil.RestartService(serviceName)
+    win32serviceutil.RestartService(service_name)
     time.sleep(1)

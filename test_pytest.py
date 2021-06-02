@@ -21,6 +21,7 @@ def test_verify_os():
     for os_name in c.Win32_OperatingSystem():
         print(os_name.Caption)
     assert computer_operational_system[8:12] in os_name.Caption
+    delete_files()
 
 
 def test_verify_hostname():
@@ -29,6 +30,7 @@ def test_verify_hostname():
     print(computer_computer_name)
     print(socket.gethostname())
     assert socket.gethostname() == computer_computer_name
+    delete_files()
 
 
 def test_verify_computer_ip():
@@ -39,6 +41,7 @@ def test_verify_computer_ip():
     ip_address = socket.gethostbyname(hostname)
     print(ip_address)
     assert computer_ip == ip_address
+    delete_files()
 
 
 def test_verify_computer_address_mac():
@@ -48,6 +51,7 @@ def test_verify_computer_address_mac():
     get_computer_mac = gma().replace(':', '-')
     print(get_computer_mac)
     assert get_computer_mac == xml_computer_mac
+    delete_files()
 
 
 def test_verify_printer_queue_name():
@@ -56,6 +60,7 @@ def test_verify_printer_queue_name():
     print(printer_queue_name)
     print(win32print.GetDefaultPrinter())
     assert win32print.GetDefaultPrinter() == printer_queue_name
+    delete_files()
 
 
 def test_verify_user_logon_name():
@@ -65,13 +70,18 @@ def test_verify_user_logon_name():
     print(getpass.getuser())
     assert getpass.getuser() == user_logon_name
     delete_files()
-test_verify_user_logon_name()
+
 
 def test_verify_total_jobs():
     obj = xml_file_to_object()
-    total_jobs = len(obj.ROOT.PrintLog.PrintJobs.PrintJob)
+    total_jobs = obj['total_jobs']
     print(total_jobs)
+    print(main.jobs_for_print)
     assert total_jobs == main.jobs_for_print
+    delete_files()
+
+
+
 
 
 
