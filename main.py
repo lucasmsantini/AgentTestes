@@ -24,7 +24,6 @@ class Handler(FileSystemEventHandler):
 
     @staticmethod
     def on_modified(event):
-
         time.sleep(0.1)
         name_file = str(event.src_path[35:79])
         npl_file = 'C:\\Windows\\System32\\Tpar\\PrintLogs\\'+name_file
@@ -38,7 +37,7 @@ class Handler(FileSystemEventHandler):
     @staticmethod
     def on_deleted(event):
         print('Arquivo NPL enviado ao Host')
-        return
+        return True
 
 
 file_change_handler = Handler()
@@ -49,7 +48,7 @@ observer.schedule(file_change_handler, os.getcwd(), recursive=False, )
 observer.start()
 
 install_agent()
-jobs_for_print = 1
+jobs_for_print = 5
 imprime1(jobs_for_print)
 wait_for_npl()
 # time.sleep(jobs_for_print + 1)

@@ -7,8 +7,14 @@ import wmi
 import socket
 from getmac import get_mac_address as gma
 
+
 def test_install():
     pass
+
+
+def test_verify_npl_send():
+    assert main.file_change_handler.on_deleted(event='on_deleted') == True
+    delete_files()
 
 
 def test_verify_os():
@@ -28,7 +34,7 @@ def test_verify_hostname():
     obj = xml_file_to_object()
     computer_computer_name = obj['computer_ComputerName']
     print(computer_computer_name)
-    print(socket.gethostname())
+    print(socket.gethostname().upper())
     assert socket.gethostname() == computer_computer_name
     delete_files()
 
@@ -46,11 +52,11 @@ def test_verify_computer_ip():
 
 def test_verify_computer_address_mac():
     obj = xml_file_to_object()
-    xml_computer_mac = obj['computer_AddressMac']
+    xml_computer_mac = obj['computer_MacAddress']
     print(xml_computer_mac)
     get_computer_mac = gma().replace(':', '-')
-    print(get_computer_mac)
-    assert get_computer_mac == xml_computer_mac
+    print(get_computer_mac.upper())
+    assert get_computer_mac.upper() == xml_computer_mac
     delete_files()
 
 
@@ -79,3 +85,8 @@ def test_verify_total_jobs():
     print(main.jobs_for_print)
     assert total_jobs == main.jobs_for_print
     delete_files()
+
+
+
+
+delete_files()

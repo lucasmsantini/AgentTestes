@@ -54,7 +54,7 @@ def wait_for_npl():
         if not file == []:
             print('Arquivo da TPAR: ', file)
             break
-
+    return True
 
 def delete_files():
     os.chdir('c:\\AgentTestes\\NPL')

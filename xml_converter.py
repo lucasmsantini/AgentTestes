@@ -6,7 +6,6 @@ import time
 
 def xml_file_to_object():
     try:
-
         dir_npl = "c:\\AgentTestes\\NPL\\"
         files_to_convert = os.listdir(dir_npl)
         print("Arquivos da pasta: ", files_to_convert)
